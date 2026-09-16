@@ -3,10 +3,11 @@ package biblioteca.model;
 import java.time.LocalDate;
 
 /**
- * Um empréstimo.
+ * Registro imutável de uma transação de empréstimo.
  *
- * <p>Vem com o mínimo: quem pegou, o que pegou e quando. Se precisar de mais
- * informação para resolver as tarefas, sinta-se livre para mudar este tipo.
+ * <p>Vincula o exemplar físico emprestado (copyId), o membro que o pegou
+ * (memberId) e a data em que ocorreu o empréstimo (borrowedAt). A obra (Book)
+ * à qual o exemplar pertence pode ser obtida a partir do próprio {@link Copy}.
  */
-public record Loan(int bookId, int memberId, LocalDate borrowedAt) {
+public record Loan(int copyId, int memberId, LocalDate borrowedAt) {
 }

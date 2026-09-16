@@ -31,20 +31,25 @@ public class LibraryService {
      * Quantidade de exemplares de um livro disponíveis para empréstimo no momento.
      */
     public int availableCopies(Book book) {
-        long loanedCount = library.loans().stream()
-                .filter(loan -> loan.bookId() == book.id())
-                .count();
-        return Math.max(0, book.copies() - (int) loanedCount);
+        return availableCopies(book.id());
     }
 
     /**
      * Quantidade de exemplares disponíveis a partir do ID do livro.
-     * Devolve 0 se o livro não for encontrado.
      */
     public int availableCopies(int bookId) {
-        return library.findBook(bookId)
-                .map(this::availableCopies)
-                .orElse(0);
+        return (int) library.copies().stream()
+                .filter(copy -> copy.getBookId() == bookId && copy.isAvailable())
+                .count();
+    }
+
+    /**
+     * Quantidade total de exemplares físicos que a biblioteca possui da obra.
+     */
+    public int totalCopies(int bookId) {
+        return (int) library.copies().stream()
+                .filter(copy -> copy.getBookId() == bookId)
+                .count();
     }
 
     // TODO (Tarefa 2): busca por título, autor ou gênero.

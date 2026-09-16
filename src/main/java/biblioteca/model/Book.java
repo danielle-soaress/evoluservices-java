@@ -1,9 +1,9 @@
 package biblioteca.model;
 
 /**
- * Um título do acervo.
+ * Obra / título cadastrado no acervo da biblioteca.
  *
- * @param copies é a quantidade de exemplares físicos que a biblioteca possui.
+ * <p>Representa os metadados imutáveis da obra. Os exemplares físicos individuais
+ * são gerenciados pela entidade {@link Copy}.
  */
-public record Book(int id, String title, String author, String genre, int copies) {
-}
+public record Book(int id, String title, String author, String genre) {}
