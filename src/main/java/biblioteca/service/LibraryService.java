@@ -27,7 +27,25 @@ public class LibraryService {
         return library.books();
     }
 
-    // TODO (Tarefa 1): quantos exemplares deste título estão livres agora?
+    /**
+     * Quantidade de exemplares de um livro disponíveis para empréstimo no momento.
+     */
+    public int availableCopies(Book book) {
+        long loanedCount = library.loans().stream()
+                .filter(loan -> loan.bookId() == book.id())
+                .count();
+        return Math.max(0, book.copies() - (int) loanedCount);
+    }
+
+    /**
+     * Quantidade de exemplares disponíveis a partir do ID do livro.
+     * Devolve 0 se o livro não for encontrado.
+     */
+    public int availableCopies(int bookId) {
+        return library.findBook(bookId)
+                .map(this::availableCopies)
+                .orElse(0);
+    }
 
     // TODO (Tarefa 2): busca por título, autor ou gênero.
 
