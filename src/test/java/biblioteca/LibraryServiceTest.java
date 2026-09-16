@@ -58,4 +58,13 @@ class LibraryServiceTest {
         LibraryService service = new LibraryService(new Library());
         assertEquals(0, service.availableCopies(9999));
     }
+
+    @Test
+    @DisplayName("retorna total de exemplares físicos cadastrados para uma obra")
+    void retornaTotalExemplares() {
+        LibraryService service = new LibraryService(new Library());
+        assertEquals(3, service.totalCopies(1)); // Duna tem 3 exemplares no total
+        assertEquals(1, service.totalCopies(6)); // Neuromancer tem 1 exemplar no total
+        assertEquals(0, service.totalCopies(9999));
+    }
 }
