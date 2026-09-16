@@ -4,6 +4,7 @@ import biblioteca.cli.Command;
 import biblioteca.cli.Console;
 import biblioteca.data.Library;
 import biblioteca.model.Book;
+import biblioteca.dto.BookCatalogDTO;
 import biblioteca.service.LibraryService;
 
 import java.util.ArrayList;
@@ -65,22 +66,18 @@ public final class Main {
     /**
      * Comando de referência: se ficar em dúvida sobre estilo, copie o que está
      * aqui.
-     *
-     * <p>TODO (Tarefa 1): hoje a tabela mostra quantos exemplares a biblioteca
-     * tem no total. Ela precisa mostrar quantos estão disponíveis agora. Veja o
-     * enunciado.
      */
     private static void showCatalog(LibraryService service) {
         Console.title("Acervo");
 
         List<List<String>> rows = new ArrayList<>();
-        for (Book book : service.catalog()) {
+        for (BookCatalogDTO item : service.getCatalog()) {
             rows.add(List.of(
-                    String.valueOf(book.id()),
-                    book.title(),
-                    book.author(),
-                    book.genre(),
-                    String.valueOf(service.availableCopies(book))));
+                    String.valueOf(item.book().id()),
+                    item.book().title(),
+                    item.book().author(),
+                    item.book().genre(),
+                    String.valueOf(item.availableCopies())));
         }
 
         Console.table(List.of("id", "título", "autor", "gênero", "disponíveis"), rows);

@@ -2,9 +2,12 @@ package biblioteca;
 
 import biblioteca.data.Library;
 import biblioteca.model.Book;
+import biblioteca.dto.BookCatalogDTO;
 import biblioteca.service.LibraryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -66,5 +69,28 @@ class LibraryServiceTest {
         assertEquals(3, service.totalCopies(1)); // Duna tem 3 exemplares no total
         assertEquals(1, service.totalCopies(6)); // Neuromancer tem 1 exemplar no total
         assertEquals(0, service.totalCopies(9999));
+    }
+
+    @Test
+    @DisplayName("retorna catálogo com itens enriquecidos contendo disponibilidade e total de exemplares")
+    void retornaCatalogoEnriquecido() {
+        LibraryService service = new LibraryService(new Library());
+        List<BookCatalogDTO> catalog = service.getCatalog();
+
+        assertEquals(12, catalog.size());
+
+        BookCatalogDTO duna = catalog.stream()
+                .filter(item -> item.book().id() == 1)
+                .findFirst()
+                .orElseThrow();
+        assertEquals(1, duna.availableCopies());
+        assertEquals(3, duna.totalCopies());
+
+        BookCatalogDTO neuromancer = catalog.stream()
+                .filter(item -> item.book().id() == 6)
+                .findFirst()
+                .orElseThrow();
+        assertEquals(0, neuromancer.availableCopies());
+        assertEquals(1, neuromancer.totalCopies());
     }
 }

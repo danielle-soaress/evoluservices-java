@@ -74,37 +74,69 @@ public class Library {
             new Loan(15, 2, LocalDate.now().minusDays(5)),
             new Loan(2, 3, LocalDate.now().minusDays(10))));
 
-    public List<Book> books() {
+    public List<Book> findAllBooks() {
         return books;
     }
 
-    public List<Copy> copies() {
-        return copies;
+    public List<Book> books() {
+        return findAllBooks();
     }
 
-    public List<Member> members() {
-        return members;
-    }
-
-    public List<Loan> loans() {
-        return loans;
-    }
-
-    public Optional<Book> findBook(int id) {
+    public Optional<Book> findBookById(int id) {
         return books.stream().filter(book -> book.id() == id).findFirst();
     }
 
-    public Optional<Member> findMember(int id) {
-        return members.stream().filter(member -> member.id() == id).findFirst();
+    public Optional<Book> findBook(int id) {
+        return findBookById(id);
+    }
+
+    public List<Copy> findAllCopies() {
+        return copies;
+    }
+
+    public List<Copy> copies() {
+        return findAllCopies();
+    }
+
+    public List<Copy> findCopiesByBookId(int bookId) {
+        return copies.stream().filter(copy -> copy.getBookId() == bookId).toList();
+    }
+
+    public Optional<Copy> findCopyById(int id) {
+        return copies.stream().filter(copy -> copy.getId() == id).findFirst();
     }
 
     public Optional<Copy> findCopy(int id) {
-        return copies.stream().filter(copy -> copy.getId() == id).findFirst();
+        return findCopyById(id);
     }
 
     public Optional<Copy> findAvailableCopy(int bookId) {
         return copies.stream()
                 .filter(copy -> copy.getBookId() == bookId && copy.isAvailable())
                 .findFirst();
+    }
+
+    public List<Member> findAllMembers() {
+        return members;
+    }
+
+    public List<Member> members() {
+        return findAllMembers();
+    }
+
+    public Optional<Member> findMemberById(int id) {
+        return members.stream().filter(member -> member.id() == id).findFirst();
+    }
+
+    public Optional<Member> findMember(int id) {
+        return findMemberById(id);
+    }
+
+    public List<Loan> findAllLoans() {
+        return loans;
+    }
+
+    public List<Loan> loans() {
+        return findAllLoans();
     }
 }
